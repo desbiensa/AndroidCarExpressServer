@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const serverless = require('serverless-http');
 
 const app = express();
 const port = 3000;
@@ -86,9 +87,10 @@ app.delete('/music/:id', async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
-
-
-// Start the server
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
+if (process.env.ENVIRONMENT === 'production') {
+    exports.handler = serverless(app);
+} else {
+    app.listen(port, () => {
+      console.log(`Server listening on port ${port}`);
+    });
+}
