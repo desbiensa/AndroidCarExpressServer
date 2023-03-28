@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import handler from 'serverless-http';
+import serverless from 'serverless-http';
 
 const app = express();
 const port = 3000;
@@ -86,10 +86,8 @@ app.delete('/music/:id', async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
-if (process.env.ENVIRONMENT === 'production') {
-    exports.handler = serverless(app);
-} else {
-    app.listen(port, () => {
-      console.log(`Server listening on port ${port}`);
-    });
-}
+  
+
+
+module.exports.handler = serverless(app);
+
