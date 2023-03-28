@@ -87,7 +87,10 @@ app.delete('/music/:id', async (req, res) => {
     }
   });
   
-
-
-module.exports.handler = serverless(app);
-
+  if (process.env.ENVIRONMENT === 'production') {
+    module.exports.handler = serverless(app);
+} else {
+    app.listen(port, () => {
+      console.log(`Server listening on port ${port}`);
+    });
+}
